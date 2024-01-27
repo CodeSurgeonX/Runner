@@ -66,14 +66,8 @@ extension LinkedList {
         // We also wanna make sure there exsists a linked list, head nil means there are no elements
         guard index > 0, let head = head else { return nil }
         
-        if index == 1 {
-            return head
-        }
-        
-        
         var current: Node? = head
         var currentIndex = 1
-        
         
         while current != nil {
             if currentIndex == index {
@@ -108,10 +102,11 @@ ll.append(node: .init(value: 5))
 print(ll)
 
 
-
+// MARK: Testing getItemAtIndex in LL
 
 print(ll.getItemAtIndex(4)?.value)
 ll.append(node: .init(value: 13))
 print(ll)
 print(ll.getItemAtIndex(6)?.value)
 print(ll.getItemAtIndex(21))
+print(ll.getItemAtIndex(1)?.value)
