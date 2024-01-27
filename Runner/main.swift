@@ -1,11 +1,4 @@
+// Linked list with append, getitemAtIndex, insetItemAtIndex, deleteItemAtIndex
+// Stakc push, pop, peek (Using LL and Array)
+// Queue enqueue, dequeue, peek (Using LL and Array you can keep a reference to head and tail for insertions and deletions)
 //
-//  main.swift
-//  Runner
-//
-//  Created by Shashwat Kashyap on 27/01/24.
-//
-
-import Foundation
-
-print("Hello, World!")
-
