@@ -45,7 +45,7 @@ extension LinkedList {
     }
 }
 
-// MARK: LinkedList priting
+// MARK: LinkedList printing
 extension LinkedList: CustomStringConvertible {
     var description: String {
         var result = String()
@@ -59,23 +59,7 @@ extension LinkedList: CustomStringConvertible {
     }
 }
 
-
-
-// MARK: LinkedList Example
-let node1 = Node(value: 1)
-let node2 = Node(value: 2)
-let node3 = Node(value: 3)
-let node4 = Node(value: 4)
-
-node1.next = node2
-node2.next = node3
-node3.next = node4
-
-var ll = LinkedList(head: node1)
-print(ll)
-ll.append(node: .init(value: 5))
-print(ll)
-
+// MARK: Get item at index linked list
 extension LinkedList {
     func getItemAtIndex(_ index: Int) -> Node<T>? {
         // To make sure the index is not negative or 0 we are assuming our list starts with index 1
@@ -105,6 +89,25 @@ extension LinkedList {
         return nil
     }
 }
+
+
+
+// MARK: LinkedList Example
+let node1 = Node(value: 1)
+let node2 = Node(value: 2)
+let node3 = Node(value: 3)
+let node4 = Node(value: 4)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
+var ll = LinkedList(head: node1)
+print(ll)
+ll.append(node: .init(value: 5))
+print(ll)
+
+
 
 
 print(ll.getItemAtIndex(4)?.value)
