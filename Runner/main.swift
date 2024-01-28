@@ -413,3 +413,213 @@ func matrixRotation(_ arr: [[Int]]) {
 ////findMissingAndRepeating([1,1,3])
 //findMissingAndRepeating([3, 1, 3])
 //findMissingAndRepeating([4, 3, 6, 2, 1, 1])
+
+
+
+
+//2D Matrix
+func rotateImage(_ arr: inout [[Int]]) {
+    
+    
+    let numberOfRows = arr.count
+    let numberOfColumns = arr[0].count
+    
+    
+    // Diagonal adjustment (Transposing)
+    for i in 0..<arr.count {
+        for j in i..<arr.count {
+            let temp = arr[i][j]
+            arr[i][j] = arr[j][i]
+            arr[j][i] = temp
+        }
+    }
+    
+    // Row reversal
+    for i in 0..<arr.count {
+        var l = 0
+        var r = arr.count - 1
+        
+        while l < r {
+            let temp = arr[i][l]
+            arr[i][l] = arr[i][r]
+            arr[i][r] = temp
+            l += 1
+            r -= 1
+        }
+    }
+}
+
+
+//var rotation = [[1,2,3],[4,5,6],[7,8,9]]
+//rotateImage(&rotation)
+//print(rotation)
+
+
+func binarySearch(_ arr: [Int], value: Int) {
+    
+    
+    var l = 0
+    var r = arr.count - 1
+    
+    while l <= r {
+        let mid = l + (r-l) / 2
+        
+        if arr[mid] == value {
+            print("Found elemet at \(mid)")
+            return
+        } else if value < arr[mid] {
+            // It would be in first half
+            r = mid - 1
+            continue
+        } else {
+            // It would be in second half
+            l = mid + 1
+            continue
+        }
+    }
+    
+    print("Element not found")
+}
+
+//var arr = [1,7,11,13, 17, 19]
+//arr.shuffled().forEach({ binarySearch(arr, value: $0)})
+
+
+
+//func fib(n: Int) -> Int {
+//    if n == 0 {
+//        return 0
+//    }
+//    
+//    if n == 1 {
+//        return 1
+//    }
+//    
+//    return fib(n: n-1) + fib(n: n-2)
+//}
+//
+//
+//print(fib(n: 27))
+
+
+
+//func bubbleSort(_ arr: inout [Int]) {
+//    
+//    // 0 -> n-1
+//    for i in arr.indices {
+//        print("Checking till \(arr.count - 1 - i)")
+//        for j in 0..<arr.count - 1 - i {
+//            if arr[j] > arr[j+1] {
+//                let temp = arr[j]
+//                arr[j] = arr[j+1]
+//                arr[j+1] = temp
+//            }
+//        }
+//        print("After iteration \(i) array looks like \(arr)")
+//    }
+//}
+//
+//
+//var arr = [1,13,144,2,3]
+//bubbleSort(&arr)
+
+
+//func mergeSort(_ arr: [Int]) -> [Int] {
+//    //Base case
+//    guard arr.count > 1 else { return arr }
+//    
+//    //Recursive case
+//    
+//    let left = Array(arr[0..<arr.count/2])
+//    let right = Array(arr[arr.count/2..<arr.count])
+//    return merge(left: mergeSort(left), right: mergeSort(right))
+//    
+//    
+//    func merge(left: [Int], right: [Int]) -> [Int] {
+//        var l = left
+//        var r = right
+//        var mergedList = [Int]()
+//        
+//        while l.count > 0 && r.count > 0  {
+//            if l.first! < r.first! {
+//                mergedList.append(l.removeFirst())
+//            } else {
+//                mergedList.append(r.removeFirst())
+//            }
+//        }
+//        
+//        //This adds remaining elements if any
+//        return mergedList + l + r
+//    }
+//    
+//}
+//       
+
+
+
+//print(mergeSort([1,13,144,2,3]))
+
+
+
+
+// Merge sort which is inplace thats why better than both bubble and merge
+// we select a pivot we move the element larger than pivot behind pivot, once it reaches at its place we divide the array on pivot and we do quick sort on those elements
+// low is essentially starting place, while high is max index
+//func quickSort(arr: inout [Int], low: Int, high: Int) -> [Int] {
+//    let pivot = arr[high]
+//    
+//    for i in arr.indices {
+//        if arr[i] > pivot {
+//            
+//        }
+//    }
+//}
+
+
+
+
+// Low and high are controlling visibility of the array to partition
+func partition(arr: inout [Int], low: Int, high: Int, pivot: Int) -> Int {
+    // i -> e unknown
+    // j -> i-1 big boys
+    // 0 j-1  small boys
+    
+    var i = low
+    var j = low
+    
+    while i <= high {
+        if arr[i] > pivot {
+            i += 1
+        } else {
+            //Less than or equal
+            let temp = arr[i]
+            arr[i] = arr[j]
+            arr[j] = temp
+            i += 1
+            j += 1
+        }
+    }
+    
+    return j-1
+}
+
+
+
+
+
+func quickSort(arr: inout [Int], low: Int, high: Int) {
+    guard low <= high else { return } //Base case
+    
+    let pivotIndex = partition(arr: &arr, low: low, high: high, pivot:  arr[high])
+    
+    
+    // pivotIndex marks the index of smaller elements boundary or before pivot
+    quickSort(arr: &arr, low: 0, high: pivotIndex-1) //Faith
+    quickSort(arr: &arr, low: pivotIndex+1, high: high) // Faith
+}
+
+
+
+var arr = [8,5,1,3,7,2,9,6]
+quickSort(arr: &arr, low: 0, high: arr.count - 1)
+print(arr)
