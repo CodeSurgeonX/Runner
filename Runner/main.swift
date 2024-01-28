@@ -18,7 +18,7 @@ class Node<T> {
 
 
 // MARK: LinkedList Class
-class LinkedList<T> {
+class LinkedList<T> where T:Equatable {
     var head: Node<T>?
     
     init(head: Node<T>? = nil) {
@@ -85,6 +85,87 @@ extension LinkedList {
 }
 
 
+extension LinkedList {
+    // This is from website
+    func insertNode(_ node: Node<T>, at position: Int) {
+        guard position > 0 else {
+            return
+        }
+        
+        var counter = 1
+        var current = head
+        
+        if position > 1 {
+            while current != nil && counter < position {
+                if counter == position - 1 {
+                    node.next = current?.next
+                    current?.next = node
+                    break
+                }
+                current = current?.next
+                counter += 1
+            }
+        } else if position == 1 {
+            node.next = head
+            head = node
+        }
+    }
+    
+    // Fails when you try to append
+    func insertItemAtIndex(index: Int, node: Node<T>) {
+        // Can insert at first or last or in between.
+        // Also remember in order to add something at index we need item at previous index
+        
+        // Index is legititmate and there exsists a linked list
+        guard index > 0, head != nil else { return }
+        
+        var current = head
+        var prev: Node<T>? = nil
+        var currentIndex = 1
+        
+        
+        if index == 1 {
+            node.next = head?.next
+            head = node
+        }
+        
+        // We go till the very last element
+        while current != nil {
+            if currentIndex == index {
+                node.next = current
+                prev?.next = node
+            }
+            
+            prev = current
+            current = current?.next
+            currentIndex += 1
+        }
+        
+    }
+}
+
+
+extension LinkedList {
+    func deleteItemWithValue(value: T) {
+        guard head != nil else { return }
+        
+        var current = head
+        var prev: Node<T>? = nil
+        
+        // When we check for current.next essentially loop wont run for the last node
+        // When we check for current!= nil we are essentailly running for last element as well, it doesnt run for next of last which is anyways null
+        
+        while current != nil {
+            if value == current?.value {
+                prev?.next = current?.next
+            }
+            
+            prev = current
+            current = current?.next
+        }
+    }
+}
+
 
 // MARK: LinkedList Example
 let node1 = Node(value: 1)
@@ -97,16 +178,238 @@ node2.next = node3
 node3.next = node4
 
 var ll = LinkedList(head: node1)
-print(ll)
-ll.append(node: .init(value: 5))
-print(ll)
+//print(ll)
+//ll.append(node: .init(value: 5))
+//print(ll)
+//
+//
+//// MARK: Testing getItemAtIndex in LL
+//
+//print(ll.getItemAtIndex(4)?.value)
+//ll.append(node: .init(value: 13))
+//print(ll)
+//print(ll.getItemAtIndex(6)?.value)
+//print(ll.getItemAtIndex(21))
+//print(ll.getItemAtIndex(1)?.value)
+//print("Testing insertions")
+//print(ll)
+//ll.insertItemAtIndex(index: 1, node: .init(value: 21))
+//ll.insertItemAtIndex(index: 0, node: .init(value: 72))
+//print(ll)
+//ll.insertItemAtIndex(index: 7, node: .init(value: 42))
+//print(ll)
+//ll.insertItemAtIndex(index: 9, node: .init(value: 133))
+//print(ll)
+//ll.insertItemAtIndex(index: 5, node: .init(value: 133))
+//print(ll)
+//ll.insertNode(.init(value: 133), at: 5)
+//print(ll)
+//ll.deleteItemWithValue(value: 3)
+//print(ll)
+//
+//print("Done")
 
 
-// MARK: Testing getItemAtIndex in LL
+//func printAllSubarrays(_ arr: [Int]) {
+//    var subArrays = [[Int]]()
+//    for startPoint in 0...arr.count-1 {
+//        for groupSize in  startPoint...arr.count-1 {
+//            var temp = [Int]()
+//            for index in startPoint...groupSize {
+//                temp.append(arr[index])
+//            }
+//            subArrays.append(temp)
+//        }
+//    }
+//    
+//    _ = subArrays.map({ print($0)})
+//}
 
-print(ll.getItemAtIndex(4)?.value)
-ll.append(node: .init(value: 13))
-print(ll)
-print(ll.getItemAtIndex(6)?.value)
-print(ll.getItemAtIndex(21))
-print(ll.getItemAtIndex(1)?.value)
+//printAllSubarrays([1,2,3,4])
+
+
+//func printMaxSumOfSubarray(_ arr: [Int]) -> (start: Int, end: Int, sum: Int) {
+//    var currentSum = 0
+//    var maxSum = 0
+//    var start = 0
+//    var end = 0
+//    var s = 0
+//    
+//    for i in arr.indices {
+//        currentSum += arr[i]
+//        if currentSum > maxSum {
+//            maxSum = currentSum
+//            start = s
+//            end = i
+//        }
+//        if currentSum <= 0 {
+//            currentSum = 0
+//            s = i + 1
+//        }
+//    }
+//    
+//    return (start, end, maxSum)
+//}
+//
+//let r = printMaxSumOfSubarray([-2, -3, 4, -1, -2, 1, 5, -3])
+//print(r.start)
+//print(r.end)
+//print(r.sum)
+
+
+//
+//struct Interval {
+//    var start: Int
+//    var end: Int
+//    
+//    init(input: [Int]) {
+//        start = input[0]
+//        end = input[1]
+//    }
+//}
+//
+//
+//func mergeIntervals(_ arr: [Interval]) {
+//    var temp = arr.sorted(by: { $0.start < $1.start })
+//    var index = 0
+//    for i in stride(from: 1, to: temp.count, by: 1) {
+//        if temp[index].end > temp[i].start {
+//            temp[index].end = max(temp[index].end, temp[i].end)
+//        } else {
+//            index += 1
+//            temp[index] = temp[i]
+//        }
+//    }
+//    
+//    for i in 0...index {
+//        print(temp[i])
+//    }
+//}
+//
+//mergeIntervals([[6, 8], [1, 9], [2, 4], [4, 7]].reduce(into: [Interval](), { $0.append(Interval(input: $1))}))
+//mergeIntervals([[1,3],[2,4],[6,8],[9,10]].reduce(into: [Interval](), { $0.append(Interval(input: $1))}))
+
+
+
+// MARK: 2D Matric in place rotation, reverseing the row + Transpose
+func matrixRotation(_ arr: [[Int]]) {
+    
+}
+
+
+
+//func missingNumber(_ nums: [Int]) -> Int {
+//    
+//}
+
+//func validParanthesis(_ string: String) {
+//    let parenthesis = Array(string) //Character Array, String.Element
+//    var stack = [Character]()
+//    for element in parenthesis {
+//        switch element {
+//        case  "(", "{", "[" :
+//            stack.append(element)
+//        case ")", "}", "]" :
+//            let popedElement = stack.removeLast()
+//            if element == ")" && popedElement == "(" {
+//                continue
+//            }
+//            
+//            if element == "]" && popedElement == "[" {
+//                continue
+//            }
+//            
+//            if element == "}" && popedElement == "{" {
+//                continue
+//            }
+//            
+//            fatalError("Not balanced")
+//            
+//            
+//        default:
+//            fatalError("Invalid Character")
+//        }
+////        if "(" || "{" || "[" {
+////            stack.append(<#T##newElement: Int##Int#>)
+////        } else if {
+////            
+////        } else {
+////            fatalError("Unexpected character")
+////        }
+//    }
+//    
+//    if stack.isEmpty {
+//        print("Valid")
+//    } else {
+//        print("Invalid")
+//    }
+//}
+
+
+
+////21 2 4
+//func printAllSubArrays(_ arr: [Int]) {
+//    for startPoint in 0..<arr.count {
+//        for size in startPoint..<arr.count {
+//            var res = ""
+//            for e in startPoint...size {
+//                res.append("\(arr[e])")
+//            }
+//            print(res)
+//        }
+//    }
+//}
+//
+//printAllSubArrays([1,2,3,4])
+//validParanthesis("[({})]")
+//validParanthesis("[({})}")
+
+//
+//func maxProductSubarray(_ arr: [Int]) {
+//    var maxSoFar = arr[0]
+//    var currentMin = arr[0]
+//    var currentMax = arr[0]
+//    
+//    
+//    for index in stride(from: 1, to: arr.count, by: 1) {
+//        var temp = max(arr[index], max(arr[index] * currentMax, currentMin * arr[index]))
+//        currentMin = min(arr[index], min(arr[index] * currentMax, arr[index] * currentMin))
+//        currentMax = temp
+//        
+//        if maxSoFar < currentMax {
+//            maxSoFar = currentMax
+//        }
+//    }
+//    
+//    print(maxSoFar)
+//}
+//
+//
+//maxProductSubarray([-1, -2, 3, 4, 2, -7])
+//maxProductSubarray([1, -2, -3, 0, 7, -8, -2])
+
+//
+//func findMissingAndRepeating(_ arr: [Int]) {
+//    let n = arr.count
+//    let calculatedSum = (n * (n + 1)) / 2 //Using formulae
+//    let calculatedProduct = Array(1...n).reduce(1, *) // Using formulae
+//    var actualSum = 0 // Additive Identitiy
+//    var actualProduct = 1 // Multiplicative Identitity
+//        
+//    for index in arr.indices {
+//        actualSum = actualSum + arr[index]
+//        actualProduct = actualProduct * arr[index]
+//    }
+//    
+//    
+//    let repeatinNumber = ((calculatedSum - actualSum) * actualProduct) / (calculatedProduct - actualProduct)
+//    let missingNumber = (calculatedProduct * repeatinNumber ) / actualProduct
+//    
+//    print("Missing number is \(missingNumber)")
+//    print("Repeating number is  \(repeatinNumber)")
+//}
+//
+//
+////findMissingAndRepeating([1,1,3])
+//findMissingAndRepeating([3, 1, 3])
+//findMissingAndRepeating([4, 3, 6, 2, 1, 1])
