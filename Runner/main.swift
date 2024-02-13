@@ -6,178 +6,178 @@
 import Foundation
 
 // MARK: Node Class
-class Node<T> {
-    var value: T
-    var next: Node<T>?
-    
-    init(value: T, next: Node<T>? = nil) {
-        self.value = value
-        self.next = next
-    }
-}
-
-
-// MARK: LinkedList Class
-class LinkedList<T> where T:Equatable {
-    var head: Node<T>?
-    
-    init(head: Node<T>? = nil) {
-        self.head = head
-    }
-}
-
-
-// MARK: LinkedList append function
-extension LinkedList {
-    func append(node: Node<T>) {
-        guard head != nil else {
-            self.head = node
-            return
-        }
-        var current: Node? = head
-        // Traverse till you raech the last element, at which point the current.next would return nil, because there is nothing ahead of it
-        while let _ = current?.next {
-            current = current?.next
-        }
-        
-        // By the time loop has reached here current is holding the last element beyond this point there is nothing, this is perfect place to append the next value
-        current?.next = node
-    }
-}
-
-// MARK: LinkedList printing
-extension LinkedList: CustomStringConvertible {
-    var description: String {
-        var result = String()
-        var current = head
-        while current != nil {
-            result.append("\(current!.value) ---> ")
-            current = current?.next
-        }
-        result.append("Null")
-        return result
-    }
-}
-
-// MARK: Get item at index linked list
-extension LinkedList {
-    func getItemAtIndex(_ index: Int) -> Node<T>? {
-        // To make sure the index is not negative or 0 we are assuming our list starts with index 1
-        // We also wanna make sure there exsists a linked list, head nil means there are no elements
-        guard index > 0, let head = head else { return nil }
-        
-        var current: Node? = head
-        var currentIndex = 1
-        
-        while current != nil {
-            if currentIndex == index {
-                return current
-            }
-            
-            current = current?.next
-            currentIndex += 1
-        }
-        
-        // Here the current will be nil means we came out of the list
-        
-        return nil
-    }
-}
-
-
-extension LinkedList {
-    // This is from website
-    func insertNode(_ node: Node<T>, at position: Int) {
-        guard position > 0 else {
-            return
-        }
-        
-        var counter = 1
-        var current = head
-        
-        if position > 1 {
-            while current != nil && counter < position {
-                if counter == position - 1 {
-                    node.next = current?.next
-                    current?.next = node
-                    break
-                }
-                current = current?.next
-                counter += 1
-            }
-        } else if position == 1 {
-            node.next = head
-            head = node
-        }
-    }
-    
-    // Fails when you try to append
-    func insertItemAtIndex(index: Int, node: Node<T>) {
-        // Can insert at first or last or in between.
-        // Also remember in order to add something at index we need item at previous index
-        
-        // Index is legititmate and there exsists a linked list
-        guard index > 0, head != nil else { return }
-        
-        var current = head
-        var prev: Node<T>? = nil
-        var currentIndex = 1
-        
-        
-        if index == 1 {
-            node.next = head?.next
-            head = node
-        }
-        
-        // We go till the very last element
-        while current != nil {
-            if currentIndex == index {
-                node.next = current
-                prev?.next = node
-            }
-            
-            prev = current
-            current = current?.next
-            currentIndex += 1
-        }
-        
-    }
-}
-
-
-extension LinkedList {
-    func deleteItemWithValue(value: T) {
-        guard head != nil else { return }
-        
-        var current = head
-        var prev: Node<T>? = nil
-        
-        // When we check for current.next essentially loop wont run for the last node
-        // When we check for current!= nil we are essentailly running for last element as well, it doesnt run for next of last which is anyways null
-        
-        while current != nil {
-            if value == current?.value {
-                prev?.next = current?.next
-            }
-            
-            prev = current
-            current = current?.next
-        }
-    }
-}
-
-
-// MARK: LinkedList Example
-let node1 = Node(value: 1)
-let node2 = Node(value: 2)
-let node3 = Node(value: 3)
-let node4 = Node(value: 4)
-
-node1.next = node2
-node2.next = node3
-node3.next = node4
-
-var ll = LinkedList(head: node1)
+//class Node<T> {
+//    var value: T
+//    var next: Node<T>?
+//    
+//    init(value: T, next: Node<T>? = nil) {
+//        self.value = value
+//        self.next = next
+//    }
+//}
+//
+//
+//// MARK: LinkedList Class
+//class LinkedList<T> where T:Equatable {
+//    var head: Node<T>?
+//    
+//    init(head: Node<T>? = nil) {
+//        self.head = head
+//    }
+//}
+//
+//
+//// MARK: LinkedList append function
+//extension LinkedList {
+//    func append(node: Node<T>) {
+//        guard head != nil else {
+//            self.head = node
+//            return
+//        }
+//        var current: Node? = head
+//        // Traverse till you raech the last element, at which point the current.next would return nil, because there is nothing ahead of it
+//        while let _ = current?.next {
+//            current = current?.next
+//        }
+//        
+//        // By the time loop has reached here current is holding the last element beyond this point there is nothing, this is perfect place to append the next value
+//        current?.next = node
+//    }
+//}
+//
+//// MARK: LinkedList printing
+//extension LinkedList: CustomStringConvertible {
+//    var description: String {
+//        var result = String()
+//        var current = head
+//        while current != nil {
+//            result.append("\(current!.value) ---> ")
+//            current = current?.next
+//        }
+//        result.append("Null")
+//        return result
+//    }
+//}
+//
+//// MARK: Get item at index linked list
+//extension LinkedList {
+//    func getItemAtIndex(_ index: Int) -> Node<T>? {
+//        // To make sure the index is not negative or 0 we are assuming our list starts with index 1
+//        // We also wanna make sure there exsists a linked list, head nil means there are no elements
+//        guard index > 0, let head = head else { return nil }
+//        
+//        var current: Node? = head
+//        var currentIndex = 1
+//        
+//        while current != nil {
+//            if currentIndex == index {
+//                return current
+//            }
+//            
+//            current = current?.next
+//            currentIndex += 1
+//        }
+//        
+//        // Here the current will be nil means we came out of the list
+//        
+//        return nil
+//    }
+//}
+//
+//
+//extension LinkedList {
+//    // This is from website
+//    func insertNode(_ node: Node<T>, at position: Int) {
+//        guard position > 0 else {
+//            return
+//        }
+//        
+//        var counter = 1
+//        var current = head
+//        
+//        if position > 1 {
+//            while current != nil && counter < position {
+//                if counter == position - 1 {
+//                    node.next = current?.next
+//                    current?.next = node
+//                    break
+//                }
+//                current = current?.next
+//                counter += 1
+//            }
+//        } else if position == 1 {
+//            node.next = head
+//            head = node
+//        }
+//    }
+//    
+//    // Fails when you try to append
+//    func insertItemAtIndex(index: Int, node: Node<T>) {
+//        // Can insert at first or last or in between.
+//        // Also remember in order to add something at index we need item at previous index
+//        
+//        // Index is legititmate and there exsists a linked list
+//        guard index > 0, head != nil else { return }
+//        
+//        var current = head
+//        var prev: Node<T>? = nil
+//        var currentIndex = 1
+//        
+//        
+//        if index == 1 {
+//            node.next = head?.next
+//            head = node
+//        }
+//        
+//        // We go till the very last element
+//        while current != nil {
+//            if currentIndex == index {
+//                node.next = current
+//                prev?.next = node
+//            }
+//            
+//            prev = current
+//            current = current?.next
+//            currentIndex += 1
+//        }
+//        
+//    }
+//}
+//
+//
+//extension LinkedList {
+//    func deleteItemWithValue(value: T) {
+//        guard head != nil else { return }
+//        
+//        var current = head
+//        var prev: Node<T>? = nil
+//        
+//        // When we check for current.next essentially loop wont run for the last node
+//        // When we check for current!= nil we are essentailly running for last element as well, it doesnt run for next of last which is anyways null
+//        
+//        while current != nil {
+//            if value == current?.value {
+//                prev?.next = current?.next
+//            }
+//            
+//            prev = current
+//            current = current?.next
+//        }
+//    }
+//}
+//
+//
+//// MARK: LinkedList Example
+//let node1 = Node(value: 1)
+//let node2 = Node(value: 2)
+//let node3 = Node(value: 3)
+//let node4 = Node(value: 4)
+//
+//node1.next = node2
+//node2.next = node3
+//node3.next = node4
+//
+//var ll = LinkedList(head: node1)
 //print(ll)
 //ll.append(node: .init(value: 5))
 //print(ll)
@@ -620,6 +620,129 @@ func quickSort(arr: inout [Int], low: Int, high: Int) {
 
 
 
-var arr = [8,5,1,3,7,2,9,6]
-quickSort(arr: &arr, low: 0, high: arr.count - 1)
-print(arr)
+//var arr = [8,5,1,3,7,2,9,6]
+//quickSort(arr: &arr, low: 0, high: arr.count - 1)
+//print(arr)
+
+
+
+
+//func arrangeZeroesAndOnes(_ arr: inout [Int]) {
+//    var index = 0
+//    
+//    for i in arr.indices {
+//        if arr[i] == 0 {
+//            let temp = arr[i]
+//            arr[i] = arr[index]
+//            arr[index] = temp
+//            index += 1
+//        }
+//    }
+//}
+//
+//var arr = [1,0,1,1,0,0,0]
+//var arr2 = [0,1,1,1,0,0,0]
+//arrangeZeroesAndOnes(&arr)
+//arrangeZeroesAndOnes(&arr2)
+//print(arr)
+//print(arr2)
+
+
+//func multiply(str1: String, str2: String) -> String {
+//    var s1 = str1.reduce(into: [Int](), {$0.append(Int(String($1))!)})
+//    var s2 = str1.reduce(into: [Int](), {$0.append(Int(String($1))!)})
+//    
+//    var result = [String.Element]()
+//    
+//    
+//    // Adjust for remain
+//    if s1.count > s2.count {
+//        
+//    } else {
+//        
+//    }
+//
+//    
+//    return String(result)
+//}
+
+
+class Node {
+    var value: Int
+    var left: Node?
+    var right: Node?
+    
+    init(value: Int, left: Node? = nil, right: Node? = nil) {
+        self.value = value
+        self.left = left
+        self.right = right
+    }
+}
+
+let treeRoot = Node(value: 21,
+                    left: .init(value: 15,
+                                left: .init(value: 1),
+                                right: .init(value: 3)
+                               ),
+                    right: .init(value: 16,
+                                 left: .init(value: 2,
+                                             left: .init(value: 12)
+                                            ),
+                                 right: .init(value: 17)
+                                )
+)
+
+
+func preorderSearch(_ start: Node?, value: Int) -> Bool {
+    guard let start else { return false }
+    
+    // Node, Left, Right
+    if start.value == value {
+        return true
+    }
+    
+    return preorderSearch(start.left, value: value) || preorderSearch(start.right, value: value)
+}
+
+
+//print(preorderSearch(treeRoot, value: 3))
+
+//[21,15,16,1,3,2,17,12,203,199].forEach({ print(preorderSearch(treeRoot, value: $0))})
+
+
+
+func reverseEachWordOfASentence(_ str: String) -> String {
+    return str.split(separator: " ").reduce(into: "", { $0.append(contentsOf: " \(String($1.reversed()))") }).trimmingCharacters(in: .whitespacesAndNewlines)
+}
+
+//print(reverseEachWordOfASentence("Hello World, I am the best."))
+
+func reverseEachWordOfSentenceUsingStack(_ str: inout String) {
+    
+}
+
+let bstTreeNode = Node(value: 15,
+                       left: .init(value: 11,
+                                   left: .init(value: 9,
+                                               left: .init(value: 4),
+                                               right: .init(value: 10))),
+                       right: .init(value: 51,
+                                    left: .init(value: 50),
+                                    right: .init(value: 99)))
+
+
+func searchABST(node: Node?, value: Int, stepsTaken: Int) -> Bool {
+    guard let node else { return false }
+    
+    if value == node.value {
+        print("Found in \(stepsTaken + 1)")
+        return true
+    } else if value < node.value {
+        return searchABST(node: node.left, value: value, stepsTaken: stepsTaken + 1)
+    } else {
+        return searchABST(node: node.right, value: value,  stepsTaken: stepsTaken + 1)
+    }
+}
+
+
+//[15,11,9,4,10,51,50,99,101].forEach({ print(searchABST(node: bstTreeNode, value: $0, stepsTaken: 0)) })
